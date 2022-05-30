@@ -1,0 +1,43 @@
+{% extends "App/base.html" %}
+{% block body %}
+{% load static %}
+{% csrf_token %}
+
+
+         <a  class="btn btn-primary" href="{% url "address" %}">Add Address </a>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Original price</th>
+        <th scope="col "> Discount </th>
+        <th scope="col"> Sell price </th>
+        <th scope="col">Image</th>
+        <th scope="col">Descripation</th>
+        <th scope="col">Action</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for x in data %}
+    <tr>
+
+        <th scope="row">{{x.id}}</th>
+        <td>{{x.name}}</td>
+        <td>₹  {{x.og_price}}</td>
+        <td> {{x.discount}}%</td>
+        <td>₹  {{x.sellprice}}</td>
+
+        <td><img src="{{x.image.url}}" style="max-width:40%;" class="img-thumbnail"></td>
+        <td>{{x.descripation}}</td>
+         <td><a  class="btn btn-primary" href="{% url "addtocart" x.id %}">Add To Cart</a></td>
+
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock body %}

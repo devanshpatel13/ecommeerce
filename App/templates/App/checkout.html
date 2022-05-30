@@ -1,0 +1,121 @@
+{% extends "App/base.html" %}
+{% block body %}
+{% load static %}
+{% csrf_token %}
+
+<section class="checkout spad">
+    <div class="container">
+        <form action="/createcheckout/" method="post">
+            {% csrf_token %}
+            <div class="row">
+
+                <div class="col-6 border border-dark" style="background-color: #f3f2ee;">
+                    {% if data %}
+                    <div class="section-title p-3">
+
+                        <h4><b>Delivery Address </b></h4>
+                    </div>
+
+
+                    {% endif %}
+
+
+                    {% for x in data %}
+
+                    <div class="border border-dark p-4" style="background-color: #e4e7ed;">
+                        <input type="radio" id="{{x.id}}" name="add" value="{{x.id}}">
+                        <label><b>{{x.first_name}}</b></label> <label><b>{{x.last_name}}</b></label> <br>
+                        <label>{{x.address}}</label>,<label>{{x.city}}</label>,<label>{{x.pincode}}</label><br>
+                        &emsp;<a href="#"><span style="color: rgb(9, 190, 245);">Edit</span></a>&emsp;|&emsp;<a
+                            href="#"><span style="color: red;">Remove</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+
+
+                    {% empty %}
+                    <div class="p-3">
+                        <h2>Please Enter your address......</h2>
+                    </div>
+
+                    {% endfor %}
+
+                    <div class="p-3">
+
+                        <a href="#"><span style="color: #2874f0;">+ Add New Address</span></a>
+                    </div>
+
+                </div>
+
+
+                <div class="col-6">
+                    <div class="checkout__order border border-dark">
+                        <center><h4 class="order__title">Your order</h4></center>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for x in prod %}
+                            <tr>
+                                <td>{{x}}</td>
+                                <td>₹ {{x.product_total}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% if coupon %}
+                        <li>Total Amount <span style="color: black;">₹ {{total}}</span></li>
+                        {% else %}
+                        <li>Total Amount <span style="color: black;">₹ {{total}}</span></li>
+                        {% endif %}
+
+                        <button type="submit" class="site-btn">PLACE ORDER</button>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% if coupon_code_error%}
+        {{coupon_code_error}}
+        {% endif %}
+        <form method="get" action="">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="col-form-label">Promo code </label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" name="code" class="form-control" aria-describedby="passwordHelpInline">
+                </div>
+                <div class="col-auto">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+    </div>
+</section>
+
+
+{% endblock body %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

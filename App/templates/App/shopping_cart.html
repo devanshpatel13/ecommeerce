@@ -1,0 +1,58 @@
+{% extends "App/base.html" %}
+{% load static %}
+
+
+{% block body %}
+{% csrf_token %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Original price</th>
+        <th scope="col "> Sell price </th>
+        <th scope="col">  Discount </th>
+        <th scope="col">Image</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total</th>
+        <th scope="col"> Delete order </th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for x in cart %}
+    <tr>
+
+        <th scope="row">{{x.id}}</th>
+        <td>{{x.product.name}}</td>
+        <td>₹  {{x.product.og_price}}</td>
+        <td>₹  {{x.product.sellprice}}</td>
+        <td> {{x.product.discount}}%</td>
+
+
+        <td><img src="{{x.product.image.url}}" style="max-width:40%;" class="img-thumbnail"/></td>
+        <td>
+            <a href="{% url 'minus' x.id %}" class="btn btn-primary ">-</a>   {{x.quantity}}
+          <a href="{%  url 'plus' x.id %}" class="btn btn-primary bg-dark">+</a>
+        </td>
+        <td>₹{{x.product_total}}</td>
+        <td><a href="{%  url 'delcart' x.id %}" class="fa fa-close ">del </a>
+            </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'checkout' %}" class="primary-btn">Proceed to checkout</a>
+
+
+
+
+{% if coupon_code_message %}
+ {{coupon_code_message }}
+{% endif %}
+{% for x in coupon %}
+    {{x.code}}
+{% endfor %}
+{% endblock body %}
